@@ -25,18 +25,20 @@ const ownerNumber = ['94766943622']
 const l = console.log
 var { updateCMDStore,isbtnID,getCMDStore,getCmdForCmdId,connectdb,input,get,updb,updfb } = require("./lib/database")
 
-//===================SESSION============================
+//--------------------| SAHAS-MD Sesion Output |--------------------//
+
 if (!fs.existsSync(__dirname + '/session/creds.json')) {
-  if (config.SESSION_ID) {
-  const sessdata = config.SESSION_ID.replace("IZUMI=","")
-  const filer = File.fromURL(`https://mega.nz/file/${sessdata}`)
-  filer.download((err, data) => {
-    if (err) throw err
-    fs.writeFile(__dirname + '/session/creds.json', data, () => {
-console.log("Session download completed !!")
+    if(!config.SESSION_ID) return console.log('❎ SAHAS-MD - Please Add Your Session...')
+    const sessdata = config.SESSION_ID
+    const filer = File.fromURL(`https://mega.nz/file/${sessdata}`)
+    filer.download((err, data) => {
+        if(err) throw err
+        fs.writeFile(__dirname + '/session/creds.json', data, () => {
+
+            console.log("✅ SAHAS-MD - Session Downloading...")
+        })
     })
-  })
-}}
+}
 // <<==========PORTS===========>>
 const express = require("express");
 const app = express();
