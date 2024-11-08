@@ -45,17 +45,19 @@ const app = express();
 const port = process.env.PORT || 8000;
 //====================================
 async function connectToWA() {
-  const { version, isLatest } = await fetchLatestBaileysVersion()
-  console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`)
-  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/session/')
-  const conn = makeWASocket({
-    logger: P({ level: "fatal" }).child({ level: "fatal" }),
-    printQRInTerminal: true,
-    generateHighQualityLinkPreview: true,
-    auth: state,
-    defaultQueryTimeoutMs: undefined,
-    msgRetryCounterCache 
-  })
+    console.log(asciiArt);
+    console.log("✅ SAHAS-MD - Session Download Completed...");
+    const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/Session/')
+    var { version } = await fetchLatestBaileysVersion()
+
+    const conn = makeWASocket({
+        logger: P({ level: 'silent' }),
+        printQRInTerminal: false,
+        browser: Browsers.macOS("Safari"),
+        syncFullHistory: true,
+        auth: state,
+        version
+    })
   
   conn.ev.on('connection.update',async(update) => {
     const { connection, lastDisconnect } = update
